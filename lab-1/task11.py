@@ -4,13 +4,16 @@ import math
 VOWELS_LATIN = "AEIOUYaeiouy"
 VOWELS_CYRILLIC = "АЕЁИОУЫЭЮЯаеёиоуыэюя"
 
+
 def is_vowel(char):
     return char in VOWELS_LATIN or char in VOWELS_CYRILLIC
+
 
 def char_frequency(text):
     counter = Counter(text)
     total_chars = len(text) if text else 1
     return {char: count / total_chars for char, count in counter.items()}
+
 
 def most_frequent_char_info(text):
     frequencies = char_frequency(text)
@@ -19,9 +22,11 @@ def most_frequent_char_info(text):
     most_common_char = max(frequencies, key=frequencies.get)
     return most_common_char, frequencies[most_common_char]
 
+
 def alphabet_frequency(text):
     unique_chars = set(text)
     return {char: 1 / len(unique_chars) for char in unique_chars} if unique_chars else {}
+
 
 def frequency_difference(text):
     most_common_char, freq_in_text = most_frequent_char_info(text)
@@ -29,14 +34,19 @@ def frequency_difference(text):
     return abs(freq_in_text - freq_in_alphabet)
 
 
+def squared_frequency_deviation(text):
+    most_common_char, freq_in_text = most_frequent_char_info(text)
+    freq_in_alphabet = alphabet_frequency(text).get(most_common_char, 0)
+    return (freq_in_text - freq_in_alphabet) ** 2
 
 def main():
     print("Выберите способ сортировки:")
     print("1. По разнице частот самого частого символа и его частоты в алфавите.")
+    print("2. По квадратичному отклонению частоты самого частого символа.")
 
-    choice = input("Введите номер (1-4): ").strip()
+    choice = input("Введите номер (1-2): ").strip()
 
-    if choice not in {"1", "2", "3", "4"}:
+    if choice not in {"1", "2"}:
         print("Неверный выбор, попробуйте снова.")
         return
 
@@ -54,11 +64,12 @@ def main():
 
     if choice == "1":
         sorted_strings = sorted(strings, key=frequency_difference)
+    elif choice == "2":
+        sorted_strings = sorted(strings, key=squared_frequency_deviation)
 
     print("\nОтсортированные строки:")
     for line in sorted_strings:
         print(line)
-
 
 if __name__ == "__main__":
     main()
