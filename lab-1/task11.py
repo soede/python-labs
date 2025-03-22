@@ -4,16 +4,13 @@ import math
 VOWELS_LATIN = "AEIOUYaeiouy"
 VOWELS_CYRILLIC = "АЕЁИОУЫЭЮЯаеёиоуыэюя"
 
-
 def is_vowel(char):
     return char in VOWELS_LATIN or char in VOWELS_CYRILLIC
-
 
 def char_frequency(text):
     counter = Counter(text)
     total_chars = len(text) if text else 1
     return {char: count / total_chars for char, count in counter.items()}
-
 
 def most_frequent_char_info(text):
     frequencies = char_frequency(text)
@@ -22,31 +19,39 @@ def most_frequent_char_info(text):
     most_common_char = max(frequencies, key=frequencies.get)
     return most_common_char, frequencies[most_common_char]
 
-
 def alphabet_frequency(text):
     unique_chars = set(text)
     return {char: 1 / len(unique_chars) for char in unique_chars} if unique_chars else {}
-
 
 def frequency_difference(text):
     most_common_char, freq_in_text = most_frequent_char_info(text)
     freq_in_alphabet = alphabet_frequency(text).get(most_common_char, 0)
     return abs(freq_in_text - freq_in_alphabet)
 
-
 def squared_frequency_deviation(text):
     most_common_char, freq_in_text = most_frequent_char_info(text)
     freq_in_alphabet = alphabet_frequency(text).get(most_common_char, 0)
     return (freq_in_text - freq_in_alphabet) ** 2
 
+def vowel_consonant_difference(text):
+    vc_count = 0
+    cv_count = 0
+    for i in range(len(text) - 1):
+        if is_vowel(text[i]) and not is_vowel(text[i + 1]):
+            vc_count += 1
+        elif not is_vowel(text[i]) and is_vowel(text[i + 1]):
+            cv_count += 1
+    return abs(vc_count - cv_count)
+
 def main():
     print("Выберите способ сортировки:")
     print("1. По разнице частот самого частого символа и его частоты в алфавите.")
     print("2. По квадратичному отклонению частоты самого частого символа.")
+    print("3. По разнице количества сочетаний ‘гласная-согласная’ и ‘согласная-гласная’.")
 
-    choice = input("Введите номер (1-2): ").strip()
+    choice = input("Введите номер (1-3): ").strip()
 
-    if choice not in {"1", "2"}:
+    if choice not in {"1", "2", "3"}:
         print("Неверный выбор, попробуйте снова.")
         return
 
@@ -66,6 +71,8 @@ def main():
         sorted_strings = sorted(strings, key=frequency_difference)
     elif choice == "2":
         sorted_strings = sorted(strings, key=squared_frequency_deviation)
+    elif choice == "3":
+        sorted_strings = sorted(strings, key=vowel_consonant_difference)
 
     print("\nОтсортированные строки:")
     for line in sorted_strings:
