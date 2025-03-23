@@ -43,15 +43,32 @@ def vowel_consonant_difference(text):
             cv_count += 1
     return abs(vc_count - cv_count)
 
+def global_squared_frequency_deviation(texts):
+    all_frequencies = Counter()
+    total_chars = sum(len(text) for text in texts)
+
+    for text in texts:
+        all_frequencies.update(text)
+
+    global_frequencies = {char: count / total_chars for char, count in all_frequencies.items()}
+
+    def deviation(text):
+        most_common_char, freq_in_text = most_frequent_char_info(text)
+        freq_in_global = global_frequencies.get(most_common_char, 0)
+        return (freq_in_text - freq_in_global) ** 2
+
+    return deviation
+
 def main():
     print("Выберите способ сортировки:")
     print("1. По разнице частот самого частого символа и его частоты в алфавите.")
     print("2. По квадратичному отклонению частоты самого частого символа.")
     print("3. По разнице количества сочетаний ‘гласная-согласная’ и ‘согласная-гласная’.")
+    print("4. По квадратичному отклонению частоты самого частого символа в наборе строк от его частоты в данной строке.")
 
-    choice = input("Введите номер (1-3): ").strip()
+    choice = input("Введите номер (1-4): ").strip()
 
-    if choice not in {"1", "2", "3"}:
+    if choice not in {"1", "2", "3", "4"}:
         print("Неверный выбор, попробуйте снова.")
         return
 
@@ -73,6 +90,8 @@ def main():
         sorted_strings = sorted(strings, key=squared_frequency_deviation)
     elif choice == "3":
         sorted_strings = sorted(strings, key=vowel_consonant_difference)
+    elif choice == "4":
+        sorted_strings = sorted(strings, key=global_squared_frequency_deviation(strings))
 
     print("\nОтсортированные строки:")
     for line in sorted_strings:
