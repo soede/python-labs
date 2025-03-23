@@ -19,10 +19,16 @@ def cyclic_shift_left(arr):
         first_element = arr.pop(0)
         arr.append(first_element)
 
-def main():
-    task = input("Введи номер задания: (3, 15, 27) ")
+def print_elements_by_index(arr):
+    even_index_elements = [arr[i] for i in range(0, len(arr), 2)]
+    odd_index_elements = [arr[i] for i in range(1, len(arr), 2)]
+    print("Элементы с четными индексами: ", even_index_elements)
+    print("Элементы с нечетными индексами: ", odd_index_elements)
 
-    if task not in {"3", "15", "27"}:
+def main():
+    task = input("Введи номер задания: (3, 15, 27, 39) ")
+
+    if task not in {"3", "15", "27", "39"}:
         print("Неправильный номер задания")
         return
 
@@ -51,6 +57,9 @@ def main():
     elif int(task) == 27:
         cyclic_shift_left(arr)
         print("Массив после циклического сдвига влево: ", arr)
+
+    elif int(task) == 39:
+        print_elements_by_index(arr)
 
 if __name__ == "__main__":
     main()
