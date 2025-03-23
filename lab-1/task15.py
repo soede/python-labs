@@ -14,10 +14,15 @@ def is_local_min(arr, index):
     right = arr[index + 1] if index < len(arr) - 1 else float('inf')
     return arr[index] < left and arr[index] < right
 
-def main():
-    task = input("Введи номер задания: (3, 15) ")
+def cyclic_shift_left(arr):
+    if len(arr) > 1:
+        first_element = arr.pop(0)
+        arr.append(first_element)
 
-    if task not in {"3", "15"}:
+def main():
+    task = input("Введи номер задания: (3, 15, 27) ")
+
+    if task not in {"3", "15", "27"}:
         print("Неправильный номер задания")
         return
 
@@ -36,11 +41,16 @@ def main():
             print("Это глобальный максимум")
         else:
             print("Это не глобальный максимум")
+
     elif int(task) == 15:
         if is_local_min(arr, index):
             print("Это локальный минимум")
         else:
             print("Это не локальный минимум")
+
+    elif int(task) == 27:
+        cyclic_shift_left(arr)
+        print("Массив после циклического сдвига влево: ", arr)
 
 if __name__ == "__main__":
     main()
