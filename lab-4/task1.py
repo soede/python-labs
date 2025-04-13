@@ -17,3 +17,5 @@ def find_max_sum(filename):
         max_sum = max(max_sum, values[i] + best2[i-K])
 
     return max_sum
+
+print(find_max_sum("27-166b.txt"))

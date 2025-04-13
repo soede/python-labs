@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Добавить программу</title></head>
+<body>
+<h1>Добавить новую программу</h1>
+<form action="/cgi-bin/create.py" method="post">
+  Название: <input type="text" name="name"><br>
+  Версия: <input type="text" name="version"><br>
+  Тип лицензии: <input type="text" name="license_type"><br>
+  ID разработчика: <input type="number" name="developer_id"><br>
+  <input type="submit" value="Добавить">
+</form>
+<a href="/cgi-bin/index.py">⬅ Назад</a>
+</body>
+</html>
